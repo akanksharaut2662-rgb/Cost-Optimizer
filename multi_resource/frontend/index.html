@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Cost Optimizer Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Chart.js for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <i class="fa-solid fa-cloud nav-icon"></i>
+            <span class="nav-title">Cloud Cost Optimizer</span>
+        </div>
+        <div class="nav-center">
+            <button class="azure-badge">Azure</button>
+        </div>
+        <div class="nav-right">
+            <span class="nav-link">Azure</span>
+            <span class="nav-link">Style</span>
+            <i class="fa-solid fa-bell nav-icon"></i>
+            <div class="profile-section">
+                <img src="https://via.placeholder.com/35" alt="Profile" class="profile-img">
+                <span class="profile-name">Account</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="card">
+                <i class="fa-solid fa-th card-icon blue-icon"></i>
+                <div class="card-content">
+                    <p class="card-label">Total VMs Analyzed:</p>
+                    <p class="card-value">0</p>
+                </div>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-exclamation-triangle card-icon orange-icon"></i>
+                <div class="card-content">
+                    <p class="card-label">At Risk VMs:</p>
+                    <p class="card-value">0</p>
+                </div>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-dollar-sign card-icon green-icon"></i>
+                <div class="card-content">
+                    <p class="card-label">Potential Monthly Savings:</p>
+                    <p class="card-value">$1000</p>
+                </div>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-clock card-icon blue-icon"></i>
+                <div class="card-content">
+                    <p class="card-label">Last Scan: 5 hours ago</p>
+                    <span class="time-badge">hours ago</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-container">
+                <h3>Risk Distribution</h3>
+                <canvas id="riskChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Cost Trends</h3>
+                <canvas id="costChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="table-section">
+            <div class="table-header">
+                <h3>VM Resources</h3>
+                <div class="table-actions">
+                    <button class="btn-action">Action</button>
+                    <button class="btn-advisor">Advisor</button>
+                </div>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>VM Name</th>
+                        <th>CPU Usage %</th>
+                        <th>Days Idle</th>
+                        <th>Environment Tag</th>
+                        <th>Risk Score</th>
+                        <th>Monthly Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="risk-high">
+                        <td><input type="checkbox" checked></td>
+                        <td><span class="vm-name">Losk</span></td>
+                        <td>23</td>
+                        <td>1202:4975</td>
+                        <td><span class="tag-badge">1202:4975</span></td>
+                        <td><span class="risk-badge risk-saxure">Saxure</span></td>
+                        <td><span class="cost-badge">#F3F2F1</span></td>
+                    </tr>
+                    <tr class="risk-high">
+                        <td><input type="checkbox"></td>
+                        <td><i class="fa-solid fa-triangle-exclamation orange-alert"></i> <span class="vm-name">Losk</span></td>
+                        <td>23</td>
+                        <td>1202:4975</td>
+                        <td><span class="tag-badge">1202:4975</span></td>
+                        <td><span class="risk-badge risk-saxure">Saxure</span></td>
+                        <td><span class="cost-badge">#F3F2F1</span></td>
+                    </tr>
+                    <tr class="risk-high">
+                        <td><input type="checkbox"></td>
+                        <td><i class="fa-solid fa-triangle-exclamation orange-alert"></i> <span class="vm-name">Losk</span></td>
+                        <td>23</td>
+                        <td>1202:4975</td>
+                        <td><span class="tag-badge">1202:4975</span></td>
+                        <td><span class="risk-badge risk-saxure">Saxure</span></td>
+                        <td><span class="cost-badge">#F3F2F1</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
