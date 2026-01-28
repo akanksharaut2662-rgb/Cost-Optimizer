@@ -295,6 +295,67 @@ body {
     font-weight: 600;
 }
 
+/* Tabs Navigation */
+.tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #E1E1E1;
+}
+
+.tab-btn {
+    padding: 12px 25px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-size: 15px;
+    font-weight: 600;
+    color: #605E5C;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    color: #0078D4;
+}
+
+.tab-btn.active {
+    color: #0078D4;
+    border-bottom-color: #0078D4;
+}
+
+/* Table Content Containers */
+.table-content {
+    display: none;
+}
+
+.table-content.active {
+    display: block;
+}
+
+/* Status Badges for Yes/No */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-yes {
+    background-color: #DFF6DD;
+    color: #107C10;
+}
+
+.status-no {
+    background-color: #FFF0F0;
+    color: #D13438;
+}
+
+.risk-medium {
+    color: #FF8C00;
+}
+
+
 /* Responsive Design */
 @media (max-width: 1200px) {
     .summary-cards {

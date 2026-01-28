@@ -21,7 +21,6 @@
             <button class="azure-badge">Azure</button>
         </div>
         <div class="nav-right">
-            <span class="nav-link">Azure</span>
             <span class="nav-link">Style</span>
             <i class="fa-solid fa-bell nav-icon"></i>
             <div class="profile-section">
@@ -79,6 +78,13 @@
         </div>
 
         <!-- Table Section -->
+         <div class="table-section">
+        <!-- ADD THIS TAB NAVIGATION -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('vm')">VM Resources</button>
+            <button class="tab-btn" onclick="showTab('storage')">Storage</button>
+            <button class="tab-btn" onclick="showTab('database')">Database</button>
+        </div>
         <div class="table-section">
             <div class="table-header">
                 <h3>VM Resources</h3>
@@ -87,6 +93,7 @@
                     <button class="btn-advisor">Advisor</button>
                 </div>
             </div>
+            <div id="vm-table" class="table-content active"></div>
             <table class="data-table">
                 <thead>
                     <tr>
@@ -102,35 +109,112 @@
                 <tbody>
                     <tr class="risk-high">
                         <td><input type="checkbox" checked></td>
-                        <td><span class="vm-name">Losk</span></td>
+                        <td><span class="vm-name">vm1</span></td>
                         <td>23</td>
-                        <td>1202:4975</td>
+                        <td>120</td>
                         <td><span class="tag-badge">1202:4975</span></td>
-                        <td><span class="risk-badge risk-saxure">Saxure</span></td>
+                        <td><span class="risk-badge risk-saxure">checking</span></td>
                         <td><span class="cost-badge">#F3F2F1</span></td>
                     </tr>
                     <tr class="risk-high">
                         <td><input type="checkbox"></td>
-                        <td><i class="fa-solid fa-triangle-exclamation orange-alert"></i> <span class="vm-name">Losk</span></td>
+                        <td><i class="fa-solid fa-triangle-exclamation orange-alert"></i> <span class="vm-name">vm2</span></td>
                         <td>23</td>
-                        <td>1202:4975</td>
+                        <td>1</td>
                         <td><span class="tag-badge">1202:4975</span></td>
-                        <td><span class="risk-badge risk-saxure">Saxure</span></td>
+                        <td><span class="risk-badge risk-saxure">checking</span></td>
                         <td><span class="cost-badge">#F3F2F1</span></td>
                     </tr>
                     <tr class="risk-high">
                         <td><input type="checkbox"></td>
-                        <td><i class="fa-solid fa-triangle-exclamation orange-alert"></i> <span class="vm-name">Losk</span></td>
+                        <td><i class="fa-solid fa-triangle-exclamation orange-alert"></i> <span class="vm-name">vm3</span></td>
                         <td>23</td>
-                        <td>1202:4975</td>
+                        <td>12</td>
                         <td><span class="tag-badge">1202:4975</span></td>
-                        <td><span class="risk-badge risk-saxure">Saxure</span></td>
+                        <td><span class="risk-badge risk-saxure">checking</span></td>
                         <td><span class="cost-badge">#F3F2F1</span></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
+
+        <!-- Storage Table Container -->
+<div id="storage-table" class="table-content">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th><input type="checkbox"></th>
+                <th>Storage Name</th>
+                <th>Last Accessed (Days)</th>
+                <th>Storage Size (TB)</th>
+                <th>Old Backup Data</th>
+                <th>Environment Tag</th>
+                <th>Risk Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="risk-high">
+                <td><input type="checkbox"></td>
+                <td><span class="vm-name">storage A1</span></td>
+                <td>180</td>
+                <td>250 TB</td>
+                <td><span class="status-badge status-yes">Yes</span></td>
+                <td><span class="tag-badge">dev</span></td>
+                <td><span class="risk-badge risk-saxure">High</span></td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td><span class="vm-name">storage B2</span></td>
+                <td>100</td>
+                <td>5 TB</td>
+                <td><span class="status-badge status-no">No</span></td>
+                <td><span class="tag-badge">dev</span></td>
+                <td><span class="risk-badge risk-medium">Medium</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+    <!-- Database Table Container -->
+<div id="database-table" class="table-content">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th><input type="checkbox"></th>
+                <th>Database Name</th>
+                <th>Connection Count</th>
+                <th>CPU Usage %</th>
+                <th>Read/Write Activity</th>
+                <th>Backup Enabled</th>
+                <th>Environment Tag</th>
+                <th>Risk Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="risk-high">
+                <td><input type="checkbox"></td>
+                <td><span class="vm-name">database set 111</span></td>
+                <td>5</td>
+                <td>3%</td>
+                <td><span class="status-badge status-no">No</span></td>
+                <td><span class="status-badge status-yes">Yes</span></td>
+                <td><span class="tag-badge">dev</span></td>
+                <td><span class="risk-badge risk-saxure">High</span></td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td><span class="vm-name">database set 222</span></td>
+                <td>50</td>
+                <td>99%</td>
+                <td><span class="status-badge status-no">No</span></td>
+                <td><span class="status-badge status-yes">Yes</span></td>
+                <td><span class="tag-badge">dev</span></td>
+                <td><span class="risk-badge risk-medium">Medium</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
 
     <script src="script.js"></script>
 </body>
