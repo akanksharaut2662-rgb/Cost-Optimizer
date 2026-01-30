@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Cost Optimizer Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Chart.js for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="nav-link">DASHBOARD</span>
+        </div>
+        <div class="nav-center">
+            <i class="fa-solid fa-cloud nav-icon cloud-animated"></i>
+            <span class="nav-title title-animated">Cloud Cost Optimizer</span>
+        </div>
+        <div class="nav-right">
+           <!-- Theme Toggle (Sun/Moon) -->
+            <div class="theme-toggle" onclick="toggleTheme()">
+                <div class="toggle-switch">
+                    <i class="fa-solid fa-sun sun-icon"></i>
+                    <div class="toggle-slider" id="toggleSlider"></div>
+                    <i class="fa-solid fa-moon moon-icon"></i>
+                </div>
+            </div>
+
+            <!-- Notification Icon -->
+            <div class="notification-wrapper">
+                <i class="fa-solid fa-bell nav-icon-large notification-icon" onclick="toggleNotifications()"></i>
+                <span class="notification-badge">3</span>
+                <div class="notification-panel" id="notificationPanel">
+                    <div class="notification-header">Notifications</div>
+                    <div class="notification-item">
+                        <i class="fa-solid fa-info-circle"></i>
+                        <span>5 VMs need attention</span>
+                    </div>
+                    <div class="notification-item">
+                        <i class="fa-solid fa-check-circle"></i>
+                        <span>Scan completed successfully</span>
+                    </div>
+                    <div class="notification-item">
+                        <i class="fa-solid fa-exclamation-triangle"></i>
+                        <span>High-risk storage detected</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Account Dropdown -->
+            <div class="dropdown">
+                <div class="profile-section dropdown-toggle" onclick="toggleDropdown(event)">
+                    <div class="profile-icon-wrapper">
+                        <i class="fa-solid fa-user-circle profile-icon"></i>
+                    </div>
+                    <span class="profile-name">Account</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="#" onclick="refreshDashboard(); return false;"><i class="fa-solid fa-refresh"></i> Refresh</a>
+                    <a href="#" onclick="goToProfile(); return false;"><i class="fa-solid fa-user"></i> Profile</a>
+                    <a href="#" onclick="logout(); return false;"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="card">
+                <i class="fa-solid fa-th card-icon blue-icon"></i>
+                <div class="card-content">
+                    <p class="card-label">Total VMs Analyzed:</p>
+                    <p class="card-value">156</p>
+                </div>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-exclamation-triangle card-icon orange-icon"></i>
+                <div class="card-content">
+                    <p class="card-label">At Risk VMs:</p>
+                    <p class="card-value">23</p>
+                </div>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-dollar-sign card-icon green-icon"></i>
+                <div class="card-content">
+                    <p class="card-label">Potential Monthly Savings:</p>
+                    <p class="card-value">$4,280</p>
+                </div>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-clock card-icon blue-icon"></i>
+                <div class="card-content">
+                    <p class="card-label">Last Scan:</p>
+                    <p class="card-value" id="lastScanTime">2 hours ago</p>
+                    <button class="scan-now-btn" onclick="scanNow()">Scan Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-container">
+                <h3>Risk Distribution</h3>
+                <canvas id="riskChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Cost Trends</h3>
+                <canvas id="costChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="table-section">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('vm')">VM Resources</button>
+                <button class="tab-btn" onclick="showTab('storage')">Storage</button>
+                <button class="tab-btn" onclick="showTab('database')">Database</button>
+            </div>
+
+            <!-- Header with buttons -->
+            <div class="table-header">
+                <h3>Resources</h3>
+                <div class="table-actions">
+                    <button class="btn-advisor">Advisor</button>
+                </div>
+            </div>
+
+            <!-- VM Table Container -->
+            <div id="vm-table" class="table-content active">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th>VM Name</th>
+                            <th>CPU Usage %</th>
+                            <th>Days Idle</th>
+                            <th>Environment Tag</th>
+                            <th>Risk Score</th>
+                            <th>Monthly Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="risk-high">
+                            <td><input type="checkbox" checked></td>
+                            <td><span class="vm-name">vm test 123</span></td>
+                            <td>0</td>
+                            <td>14</td>
+                            <td><span class="tag-badge">dev</span></td>
+                            <td><span class="risk-badge risk-saxure">High</span></td>
+                            <td><span class="cost-badge">$250</span></td>
+                        </tr>
+                        <tr class="risk-high">
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-solid fa-triangle-exclamation orange-alert"></i> <span class="vm-name">vm test AA</span></td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td><span class="tag-badge">dev</span></td>
+                            <td><span class="risk-badge risk-medium">Medium</span></td>
+                            <td><span class="cost-badge">$180</span></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><span class="vm-name">vm test BB</span></td>
+                            <td>5</td>
+                            <td>7</td>
+                            <td><span class="tag-badge">test</span></td>
+                            <td><span class="risk-badge risk-low">Low</span></td>
+                            <td><span class="cost-badge">$120</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Storage Table Container -->
+            <div id="storage-table" class="table-content">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th>Storage Name</th>
+                            <th>Last Accessed (Days)</th>
+                            <th>Storage Size (TB)</th>
+                            <th>Old Backup Data</th>
+                            <th>Environment Tag</th>
+                            <th>Risk Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="risk-high">
+                            <td><input type="checkbox"></td>
+                            <td><span class="vm-name">storage_old_dev_large</span></td>
+                            <td>180</td>
+                            <td>250 TB</td>
+                            <td><span class="status-badge status-yes">Yes</span></td>
+                            <td><span class="tag-badge">dev</span></td>
+                            <td><span class="risk-badge risk-saxure">High</span></td>
+                        </tr>
+                        <tr class="risk-high">
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-solid fa-triangle-exclamation orange-alert"></i> <span class="vm-name">storage_abandoned_dev</span></td>
+                            <td>365</td>
+                            <td>100 TB</td>
+                            <td><span class="status-badge status-yes">Yes</span></td>
+                            <td><span class="tag-badge">dev</span></td>
+                            <td><span class="risk-badge risk-saxure">High</span></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><span class="vm-name">storage_active_prod</span></td>
+                            <td>1</td>
+                            <td>200 TB</td>
+                            <td><span class="status-badge status-no">No</span></td>
+                            <td><span class="tag-badge">prod</span></td>
+                            <td><span class="risk-badge risk-low">Low</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Database Table Container -->
+            <div id="database-table" class="table-content">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th>Database Name</th>
+                            <th>Connection Count</th>
+                            <th>CPU Usage %</th>
+                            <th>Read/Write Activity</th>
+                            <th>Backup Enabled</th>
+                            <th>Environment Tag</th>
+                            <th>Risk Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="risk-high">
+                            <td><input type="checkbox"></td>
+                            <td><span class="vm-name">db_completely_idle</span></td>
+                            <td>0</td>
+                            <td>0%</td>
+                            <td><span class="status-badge status-no">No</span></td>
+                            <td><span class="status-badge status-yes">Yes</span></td>
+                            <td><span class="tag-badge">dev</span></td>
+                            <td><span class="risk-badge risk-saxure">High</span></td>
+                        </tr>
+                        <tr class="risk-high">
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-solid fa-triangle-exclamation orange-alert"></i> <span class="vm-name">db_zombie_dev</span></td>
+                            <td>2</td>
+                            <td>1%</td>
+                            <td><span class="status-badge status-no">No</span></td>
+                            <td><span class="status-badge status-yes">Yes</span></td>
+                            <td><span class="tag-badge">dev</span></td>
+                            <td><span class="risk-badge risk-saxure">High</span></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><span class="vm-name">db_production_active</span></td>
+                            <td>250</td>
+                            <td>65%</td>
+                            <td><span class="status-badge status-yes">Yes</span></td>
+                            <td><span class="status-badge status-yes">Yes</span></td>
+                            <td><span class="tag-badge">prod</span></td>
+                            <td><span class="risk-badge risk-low">Low</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
